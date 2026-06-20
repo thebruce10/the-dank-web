@@ -1,6 +1,7 @@
-import express from "express";
+import express, { response } from "express";
 import path from "path";
 import db from "siennasql";
+import crypto from "crypto-js"
 import pinoHTTP from "pino-http";
 import logger from "./logger.js";
 
@@ -11,6 +12,13 @@ const app = express();
 db.connect("the-dank-web.db"); // Connect to the database
 
 const port = 3000;
+
+
+function createHash(plainText) {
+    let hash = crypto.SHA256(plainText).toString();
+    return hash;
+}
+
 
 
 // Logging
@@ -46,12 +54,39 @@ app.use(
 // Redirect the user to pages from root
 app.all(
     "/",
-    (request, response)=> {
+    (req, res)=> {
 
-        response.redirect("/index.html");
+        res.redirect("/register.html");
         
     }
 );
+
+
+app.all(
+    "/register",
+    (req, res)=> {
+        let username = req.body.username;
+        let email = req.body.email;
+        let password = req.body.password;
+        let passwordConfirm = req.body.passwordConfirm;
+
+        if (password !== passwordConfirm || username === "" || password === "") {
+            res.send("Registration failed.");
+            return;
+        }
+
+        let hashedPassword = createHash(password);
+
+        db.run(
+            "INSERT INTO USERS(USERNAME, EMAIL, PASSWORD, ADMIN) VALUES (?, ?, ?, ?);",
+            [username, email, hashedPassword, false]
+        );
+
+        res.send("Registration succeeded.");
+
+
+    }
+)
 
 
 // :)

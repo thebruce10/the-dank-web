@@ -7,3 +7,32 @@
 html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    background-color: #000;
+    color: #FFF;
+    accent-color: #7171FF;
+}
+
+
+.centerPanel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-self: center;
+}
+
+@media (min-width: 768px) {
+    .centerPanel {
+        width: 512px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .centerPanel {
+        width: 50%;
+    }
+}
