@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Meme - The Dank Web</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="icon" href="/images/site/favicon.ico">
+</head>
+<body>
+    <div id="menuBar"></div>
+
+    <div class="centerPanel">
+        <h1>Post Meme</h1>
+        
+        <form method="post" action="/postMeme" id="postMemeForm"></form>
+
+        <label>Title</label>
+        <input name="title" form="postMemeForm" maxlength="64" placeholder="Enter title...">
+        
+        <label>Meme</label>
+        <input name="meme" form="postMemeForm" maxlength="1024" placeholder="Enter image link...">
+    
+        <button type="submit" form="postMemeForm">Post Meme</button>
+    
+    </div>
+
+
+</body>
+</html>

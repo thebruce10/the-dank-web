@@ -1,4 +1,4 @@
-import express, { response } from "express";
+import express from "express";
 import path from "path";
 import db from "siennasql";
 import crypto from "crypto-js"
@@ -67,6 +67,17 @@ app.use(
 );
 
 
+// Check if the user is logged in
+let checkLogin = (req, res, next)=> {
+    if (req.session.userID === undefined) {
+        res.redirect(401, "/login.html");
+        return;
+    }
+
+    next();
+}
+
+
 // Redirect the user to pages from root
 app.all(
     "/",
@@ -126,7 +137,37 @@ app.all(
             res.send("Login failed.");
         }
     }
-)
+);
+
+
+app.all(
+    "/post-meme.html",
+    checkLogin,
+    (req, res)=> {
+        res.sendFile(path.join(__dirname, "protected", "post-meme.html"));
+    }
+);
+
+
+app.all(
+    "/postMeme",
+    checkLogin,
+    (req, res)=> {
+        let title = req.body.title;
+        let meme = req.body.meme;
+
+        let userID = req.session.userID;
+        let posted = Date.now();
+
+        db.run(
+            "INSERT INTO MEMES(USER_ID, POSTED, TITLE, MEME, REPORTED) VALUES (?, ?, ?, ?, ?);",
+            [userID, posted, title, meme, false]
+        );
+
+        res.send("Meme posted successfully.");
+        
+    }
+);
 
 
 // :)
