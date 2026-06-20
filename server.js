@@ -2,6 +2,7 @@ import express, { response } from "express";
 import path from "path";
 import db from "siennasql";
 import crypto from "crypto-js"
+import session from "express-session";
 import pinoHTTP from "pino-http";
 import logger from "./logger.js";
 
@@ -51,6 +52,21 @@ app.use(
 );
 
 
+// set up the session cookie
+app.use(
+    session(
+        {
+            secret: "notabiscuit_dasg54as41g6sdv",
+            resave: false,
+            saveUninitialized: true,
+            cookie: {
+                maxAge: 1000 * 60 * 60 * 24 // 1000 milliseconds * 60 seconds * 60 minutes * 24 hours
+            }
+        }
+    )
+);
+
+
 // Redirect the user to pages from root
 app.all(
     "/",
@@ -82,9 +98,33 @@ app.all(
             [username, email, hashedPassword, false]
         );
 
-        res.send("Registration succeeded.");
+        res.redirect("/login.html");
 
 
+    }
+)
+
+
+app.all(
+    "/login",
+    (req, res)=> {
+        let username = req.body.username;
+        let password = req.body.password;
+
+        let hashedPassword = createHash(password);
+
+        let check = db.run(
+            "SELECT * FROM USERS WHERE USERNAME = ? AND PASSWORD = ?;",
+            [username, hashedPassword]
+        );
+
+        if (check.length === 1) {
+            req.session.userID = check[0].ID;
+
+            res.send("Login successful.");
+        } else {
+            res.send("Login failed.");
+        }
     }
 )
 
