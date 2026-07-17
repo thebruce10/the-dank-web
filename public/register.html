@@ -5,41 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - The Dank Web</title>
     <link rel="stylesheet" href="/styles/main.css">
-    <link rel="icon" href="/images/site/favicon.ico">
+    <link rel="icon" href="/images/site/favicon.svg">
 </head>
 <body>
-    <div id="menuBar"></div>
+    <nav id="menuBar"></nav>
+    <button id="hamburger">☰</button>
 
-    <div class="centerPanel">
-        <h1>Register</h1>
+    <main id="main">
+
+        <div class="centerPanel">
+            <h1>Register</h1>
+
+            <form method="post" action="/register" id="registerForm" class="detailsForm">
+
+                <div class="formElement">
+                    <label>Username</label>
+                    <input name="username" id="username" form="registerForm" maxlength="64" placeholder="Enter username...">
+                </div>
+                
+                <div class="formElement"> 
+                    <label>Email</label>
+                    <input name="email" id="email" form="registerForm" maxlength="320" placeholder="Enter email...">
+                </div>
+
+                <div class="formElement">
+                    <label>Password</label>
+                    <input name="password" id="password" form="registerForm" type="password" placeholder="Enter password...">
+                </div>
+
+                <div class="formElement">
+                    <label>Confirm Password</label>
+                    <input name="passwordConfirm" id="passwordConfirm" form="registerForm" type="password" placeholder="Confirm password...">
+                </div>
+
+                <div class="formElement" id="privacyPolicyCheckContainer">
+                    <input type="checkbox" class="checkbox" id="privacyPolicyCheck">
+                    <span>I agree to the <a href="/files/privacy-policy.pdf" target="_blank">privacy policy</a></span>
+                </div>
+            
+                <div class="formElement">
+                    <button type="submit" id="registerButton" form="registerForm" disabled>Register</button>
+                </div>
+                
+                <div class="formElement">
+                    <span>or</span>
+                </div>
+
+                <div class="formElement">
+                    <a href="/login.html">Login</a>
+                </div>
+                
+
+            </form>
         
-        <form method="post" action="/register" id="registerForm"></form>
-        
-        <label>Username</label>
-        <input name="username" id="username" form="registerForm" maxlength="64" placeholder="Enter username...">
-        
-        <label>Email</label>
-        <input name="email" id="email" form="registerForm" maxlength="320" placeholder="Enter email...">
-        
-        <label>Password</label>
-        <input name="password" id="password" form="registerForm" type="password" placeholder="Enter password...">
-        
-        <label>Confirm Password</label>
-        <input name="passwordConfirm" id="passwordConfirm" form="registerForm" type="password" placeholder="Confirm password...">
-        
-        <div class="privacyPolicyCheckContainer" class="spaceAbove10">
-            <input type="checkbox" class="checkbox" id="privacyPolicyCheck">
-            <span>I agree to the <a href="/files/privacy-policy.pdf" target="_blank">privacy policy</a></span>
         </div>
-    
-        <button type="submit" id="registerButton" form="registerForm" disabled>Register</button>
         
-        <span>or</span>
-        <a href="/login.html">Login</a>
-    
-    </div>
+    </main>
 
-
+    <script src="/scripts/loadMenuBar.js"></script>
     <script src="register.js"></script>
+
 </body>
 </html>

@@ -5,29 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - The Dank Web</title>
     <link rel="stylesheet" href="/styles/main.css">
-    <link rel="icon" href="/images/site/favicon.ico">
+    <link rel="icon" href="/images/site/favicon.svg">
 </head>
 <body>
-    <div id="menuBar"></div>
+    <nav id="menuBar"></nav>
+    <button id="hamburger">☰</button>
 
-    <div class="centerPanel">
-        <h1>Login</h1>
-        
-        <form method="post" action="/login" id="loginForm"></form>
-        
-        <label>Username</label>
-        <input name="username" form="loginForm" maxlength="64" placeholder="Enter username...">
-        
-        <label>Password</label>
-        <input name="password" form="loginForm" type="password" placeholder="Enter password...">
-    
-        <button type="submit" form="loginForm">Login</button>
+    <main id="main">
 
-        <span>or</span>
-        <a href="/register.html">Register</a>
-    
-    </div>
+        <div class="centerPanel">
+            <h1>Login</h1>
 
+            <form method="post" action="/login" id="loginForm" class="detailsForm">
+
+                <div class="formElement">
+                    <label>Username</label>
+                    <input name="username" form="loginForm" maxlength="64" placeholder="Enter username...">
+                </div>
+                
+                <div class="formElement">
+                    <label>Password</label>
+                    <input name="password" form="loginForm" type="password" placeholder="Enter password...">
+                </div>
+                
+                <div class="formElement">
+                    <button type="submit" form="loginForm">Login</button>
+                </div>
+                
+                <div class="formElement">
+                    <span>or</span>
+                </div>
+
+                <div class="formElement">
+                    <a href="/register.html">Register</a>
+                </div>               
+                
+
+            </form>
+        </div>
+        
+    </main>
+
+
+    <script src="/scripts/loadMenuBar.js"></script>
 
 </body>
 </html>

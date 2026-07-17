@@ -70,7 +70,7 @@ app.use(
 // Check if the user is logged in
 let checkLogin = (req, res, next)=> {
     if (req.session.userID === undefined) {
-        res.redirect(401, "/login.html");
+        res.status(401).redirect("/login.html");
         return;
     }
 
@@ -132,10 +132,46 @@ app.all(
         if (check.length === 1) {
             req.session.userID = check[0].ID;
 
-            res.send("Login successful.");
+            res.redirect("/post-meme.html");
         } else {
             res.send("Login failed.");
         }
+    }
+);
+
+
+// Delete account
+app.all(
+    "/deleteAccount",
+    checkLogin,
+    (request, response)=> {
+        let userID = request.session.userID;
+
+
+        db.run(
+            "DELETE FROM USERS WHERE ID =?;",
+            [userID]
+        );
+
+
+        response.redirect("/logout");
+
+        
+    }
+);
+
+
+// Logout
+app.all(
+    "/logout",
+    (request, response)=> {
+        request.session.destroy();
+
+
+        response.redirect("/login.html");
+        
+
+        
     }
 );
 
@@ -144,7 +180,7 @@ app.all(
     "/post-meme.html",
     checkLogin,
     (req, res)=> {
-        res.sendFile(path.join(__dirname, "protected", "post-meme.html"));
+        res.sendFile(path.join(__dirname, "protected", "user", "post-meme.html"));
     }
 );
 
@@ -170,10 +206,43 @@ app.all(
 );
 
 
+
+
+
+app.all(
+    "/loggedIn",
+    (req, res)=> {
+        let userID = req.session.userID;
+
+        let responseMessage;
+
+        if (userID === undefined) {
+            responseMessage = {
+                loggedIn: false
+            };
+        } else {
+
+            let data = db.run(
+                "SELECT ID, USERNAME FROM USERS WHERE ID =?",
+                [userID]
+            );
+
+            responseMessage = {
+                loggedIn: true,
+                responseData: data
+            }
+        }
+
+        res.json(responseMessage);
+    
+    }
+);
+
+
 // :)
 app.listen(
     port,
-    "127.0.0.1",
+    // "127.0.0.1",
     ()=> {
         console.log("Running server on port " + port);
     }
